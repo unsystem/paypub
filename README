@@ -1,0 +1,70 @@
+Provably fair information marketplace
+=====================================
+    Scheme by Peter Todd
+    Code by Amir Taaki
+
+I want to put out information and get $$$
+
+  $ pp_start TESTFILE 100
+  58 chunks created.
+  Choose a future block height, and announce it to the world.
+
+Announce the HEIGHT to the world.
+Make the _public_chunks/ directory publically available for download.
+
+  "At block HEIGHT 341000 (Expected Nov 11 2014), I will prove
+   possession of the files encrypted at this location:
+     <torrent:...>" -Leaker
+
+Once block hash becomes known:
+
+  $ pp_prove TESTFILE 100 0000000000000000251ed5ba6bc475c13e15550475e4049e153a06b78b5a8a50 10 > proof_file
+  $ cat proof_file
+  20 03e9fc6592798125ede112430e0b8beb30dacd9787f061883bf0bfa43e2ca8d378
+  34 036675c1d13a0112f28956e61475551c4bc53b8b5f6a8c0799fd9bb9f968cfc8ce
+  26 02267eeac444549d63836ff1d098de2b045d0f897849c50120645d6982463d0aa4
+  26 02267eeac444549d63836ff1d098de2b045d0f897849c50120645d6982463d0aa4
+  4 02096ec2b83982ddef77ce2e1628e90ff51ac04eaa9870326a38b3f15112577843
+  26 02267eeac444549d63836ff1d098de2b045d0f897849c50120645d6982463d0aa4
+  5 034633adfee376bed397acaa576196fff39fa8257080be0914e22cb92c2c90fe26
+  19 030c6624306007688c3f27e86b6add811c4a83f1bde2e728e62458c631f76359e5
+  21 028e3f035d4ec79e6afa3a8a90a95dda4f2ced04d1e5bb77321254bea3e5545ec5
+  33 03dd42d8d4134491aee30de991350547e87f100ac9d4e0a1ac6b94150cd2e2d2b8
+  39 023a9a24584ddd2788136128d2c9d84bf4fae9d8063fb691b16eaf62d55193d6b7
+  14 02c920dbd95487749ea8cd602ffe00c6f54f396e4e2a3c2cb0ee8507a761f7505f
+  5 034633adfee376bed397acaa576196fff39fa8257080be0914e22cb92c2c90fe26
+
+Reveal these to your audience by distributing proof_file. They can use this
+file to unlock chunks and verify their authenticity.
+
+  $ pp_unlock_all proof_file TESTFILE_public_chunks/ 0000000000000000251ed5ba6bc475c13e15550475e4049e153a06b78b5a8a50
+
+Which is just a bash script that repeatedly calls for each line in the
+proof_file:
+
+  $ pp_unlock TESTFILE_public_chunks/CHUNK.20 0000000000000000251ed5ba6bc475c13e15550475e4049e153a06b78b5a8a50 03e9fc6592798125ede112430e0b8beb30dacd9787f061883bf0bfa43e2ca8d378
+  // Creates CHUNK.20.decrypted
+
+The leaker can choose to reveal subsequent blocks by spending money send
+to the addresses in _public_chunks/ADDRS file.
+Spending money from those addresses, reveals the public key which is used
+to decrypt other chunks.
+
+To do that, the leaker simply needs to import these keys into his wallet
+and spend any funds at those addresses:
+
+  $ pp_secrets TESTFILE 100
+  L265LXaXqh5TX97voQjz4Wo7Qpyoj8aCxotZYoYsG1vA72oiRTRN
+  L4qJhBVQhHVWQDznzaUoiBkBBpZubJAoLuwhNGW1AdgUoLmXpZSC
+  L37xPybVaSmBKdL6s3SgKUzsmAuBDRsws6oUjXKzz8TgNiypcsvi
+  L2ob4c74UB6rbH7YPA1s6ATDLgrDHNtRB8rUhjL2xzqrXNztQzH6
+  KywiFkzENUKvuMrFGnbSN3PemGHM555QtXhRXAk3D8b1VJwRrc4X
+    ...
+
+To find the pubkeys for an ADDRESS, use the tool pp_check_addr:
+
+  $ ./pp_check_addr 1Ksv3HoCAn75uMfXtyWLgauUQv3gEa389A
+  Fetching de6528066e6f059f2ccd9cdca8bca273ea07fbf7f7017e26a6525f0694f14c09...
+  tx found. Searching...
+  02e1746dc1da27a5d4be9be4855016fc6fdd6f29b5a198239978dafdf7dd647656
+
