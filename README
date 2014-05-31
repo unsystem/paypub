@@ -3,6 +3,17 @@ Provably fair information marketplace
     Scheme by Peter Todd
     Code by Amir Taaki
 
+* Distribute an encrypted file to the world.
+* Reveal some (provably fair) random section of the contents to prove
+  the legitimacy of its contents.
+* People bid on the remaining parts.
+* Leaker redeeming funds automatically releases the decryption key
+  allowing people to unlock the remaining parts of the file.
+
+* NO CENTRAL OPERATOR.
+* NO IDENTITY NEEDED.
+* NO INTERACTION WITH LEAKER REQUIRED.
+
 See EXPLANATION. Imagine once this is a simple piece of software for
 anyone to use (leaker: import file, add info, prove possession,
 bidder: verify, bid on chunk, unlock) of course running all over Tor
