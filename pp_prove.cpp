@@ -8,17 +8,6 @@ namespace fs = boost::filesystem;
 
 typedef std::vector<ec_point> ec_point_list;
 
-hash_digest derive_seed(const ec_point& pubkey)
-{
-    data_chunk data(pubkey.begin(), pubkey.end());
-    payment_address payaddr;
-    set_public_key(payaddr, data);
-    hash_digest result = null_hash;
-    const short_hash& addr_hash = payaddr.hash();
-    std::copy(addr_hash.begin(), addr_hash.end(), result.begin());
-    return result;
-}
-
 int main(int argc, char** argv)
 {
     if (argc != 5)
