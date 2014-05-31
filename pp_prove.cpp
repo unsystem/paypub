@@ -67,7 +67,7 @@ int main(int argc, char** argv)
     for (size_t value: random_values)
     {
         size_t index = value % all_pubkeys.size();
-        std::cout << index << " " << all_pubkeys[index] << std::endl;
+        std::cout << (index + 1) << " " << all_pubkeys[index] << std::endl;
     }
     return 0;
 }

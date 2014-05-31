@@ -117,11 +117,14 @@ int main(int argc, char** argv)
         // Should be encrypted!!
         // Use hash of pubkey as encryption key.
         if (buffer.size() < 16)
+        {
+            BITCOIN_ASSERT(infile.gcount() < 16);
             extend_data(buffer, data_chunk(0, 16 - buffer.size()));
+        }
         BITCOIN_ASSERT(buffer.size() >= 16);
         data_chunk encrypted = pp_encrypt(buffer, seed);
         char* enc_data = reinterpret_cast<char*>(encrypted.data());
-        outfile.write(enc_data, 16);
+        outfile.write(enc_data, encrypted.size());
         test_decryption(buffer, encrypted, pubkey);
         // Write bidding address also.
         const std::string line = i_str + " " + bid_addr.encoded() + "\n";
