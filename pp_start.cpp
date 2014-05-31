@@ -95,7 +95,6 @@ int main(int argc, char** argv)
     const fs::path bid_filename = public_chunks_path / "ADDRS";
     std::ofstream bidfile(bid_filename.native());
     size_t i = 0;
-    hash_digest_list hashes;
     while (infile)
     {
         data_chunk buffer(chunk_size);
@@ -129,13 +128,10 @@ int main(int argc, char** argv)
         // Write bidding address also.
         const std::string line = i_str + " " + bid_addr.encoded() + "\n";
         bidfile.write(line.c_str(), line.size());
-        // Add hash to list.
-        hashes.push_back(seed);
     }
     std::cout << i << " chunks created." << std::endl;
-    std::cout << "Choose a future block height, and announce this "
-        "hash to the world:" << std::endl;
-    std::cout << build_merkle_tree(hashes) << std::endl;
+    std::cout << "Choose a future block height, "
+        "and announce it to the world." << std::endl;
     return 0;
 }
 

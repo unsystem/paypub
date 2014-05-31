@@ -1,5 +1,5 @@
-CXXFLAGS=$(shell pkg-config --cflags libobelisk) -ggdb
-LIBS=$(shell pkg-config --libs libobelisk)
+CXXFLAGS=$(shell pkg-config --cflags libobelisk libwallet) -ggdb
+LIBS=$(shell pkg-config --libs libobelisk libwallet)
 
 default: all
 
@@ -16,14 +16,19 @@ pp_prove: pp_prove.o
 aes256.o: aes256.c
 	$(CXX) -o $@ -c $<
 
+pp_secrets.o: pp_secrets.cpp
+	$(CXX) -o $@ -c $< $(CXXFLAGS)
+pp_secrets: pp_secrets.o
+	$(CXX) -o $@ pp_secrets.o $(LIBS)
+
 pp_start.o: pp_start.cpp
 	$(CXX) -o $@ -c $< $(CXXFLAGS)
 pp_start: pp_start.o aes256.o
 	$(CXX) -o $@ pp_start.o aes256.o $(LIBS)
 
-all: pp_start pp_prove pp_unlock
+all: pp_start pp_prove pp_unlock pp_secrets
 
 clean:
-	rm -f pp_start pp_prove pp_unlock
+	rm -f pp_start pp_prove pp_unlock pp_secrets
 	rm -f *.o
 

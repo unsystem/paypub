@@ -1,0 +1,13 @@
+#!/bin/bash
+if [ "$#" -ne 3 ]; then
+    echo "Usage: pp_unlock_all LISTFILE PUBLIC_CHUNKS BLOCK_HASH"
+    exit -1
+fi
+while read p; do
+    N=$(echo $p | awk "{print \$1}")
+    PUBKEY=$(echo $p | awk "{print \$2}")
+    FILENAME="$2/CHUNK.$N"
+    ./pp_unlock $FILENAME $3 $PUBKEY
+done < $1
+
+
