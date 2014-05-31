@@ -69,3 +69,9 @@ To find the pubkeys for an ADDRESS, use the tool pp_check_addr:
   Fetching transaction...
   02e1746dc1da27a5d4be9be4855016fc6fdd6f29b5a198239978dafdf7dd647656
 
+Merge the decrypted files back together again using:
+
+  $ ./pp_merge TESTFILE_public_chunks/ 58
+
+(where 58 is the number of chunks... it's a simple bash script.)
+

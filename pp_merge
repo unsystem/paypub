@@ -1,0 +1,9 @@
+#!/bin/bash
+if [ "$#" -ne 2 ]; then
+    echo "Usage: pp_merge PUBLIC_CHUNKS CHUNKS"
+    exit -1
+fi
+for i in $(seq 1 $2); do
+    cat "$1/CHUNK.$i.decrypted"
+done
+
