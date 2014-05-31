@@ -13,12 +13,10 @@ payment_address bidding_address(const ec_point& pubkey)
     set_public_key(payaddr, data);
     return payaddr;
 }
-hash_digest derive_seed(const payment_address& bid_addr)
+hash_digest derive_seed(const ec_point& pubkey)
 {
-    hash_digest result = null_hash;
-    const short_hash& addr_hash = bid_addr.hash();
-    std::copy(addr_hash.begin(), addr_hash.end(), result.begin());
-    return result;
+    data_chunk data(pubkey.begin(), pubkey.end());
+    return bitcoin_hash(data);
 }
 
 // Encrypt for first hash.
@@ -37,8 +35,7 @@ data_chunk pp_encrypt(data_chunk buffer, hash_digest seed)
 void test_decryption(const data_chunk& buffer,
     data_chunk cipher, const ec_point& addr_pubkey)
 {
-    payment_address bid_addr = bidding_address(addr_pubkey);
-    hash_digest seed = derive_seed(bid_addr);
+    hash_digest seed = derive_seed(addr_pubkey);
     aes256_context ctx; 
     BITCOIN_ASSERT(seed.size() == 32);
     aes256_init(&ctx, seed.data());
@@ -112,7 +109,7 @@ int main(int argc, char** argv)
         ec_point pubkey = secret_to_public_key(secret);
         // Once we spend funds, we reveal the decryption pubkey.
         payment_address bid_addr = bidding_address(pubkey);
-        hash_digest seed = derive_seed(bid_addr);
+        hash_digest seed = derive_seed(pubkey);
         // Should be encrypted!!
         // Use hash of pubkey as encryption key.
         if (buffer.size() < 16)
@@ -130,8 +127,9 @@ int main(int argc, char** argv)
         bidfile.write(line.c_str(), line.size());
     }
     std::cout << i << " chunks created." << std::endl;
-    std::cout << "Choose a future block height, "
-        "and announce it to the world." << std::endl;
+    std::cout << "Choose a future block height and "
+        "a number of chunks to release." << std::endl;
+    std::cout << "Announce them to the world." << std::endl;
     return 0;
 }
 

@@ -18,7 +18,6 @@ void tx_fetched(const std::error_code& ec, const transaction_type& tx)
     }
     else
     {
-        std::cout << "tx found. Searching..." << std::endl;
         for (const transaction_input_type& input: tx.inputs)
         {
             payment_address addr;
@@ -63,8 +62,7 @@ void history_fetched(
         {
             if (row.spend.hash != null_hash)
             {
-                std::cout << "Fetching " << row.spend.hash
-                    << "..." << std::endl;
+                std::cout << "Fetching transaction..." << std::endl;
                 node->blockchain.fetch_transaction(row.spend.hash, tx_fetched);
                 return;
             }

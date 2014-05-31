@@ -7,14 +7,16 @@ I want to put out information and get $$$
 
   $ pp_start TESTFILE 100
   58 chunks created.
-  Choose a future block height, and announce it to the world.
+  Choose a future block height and a number of chunks to release.
+  Announce them to the world.
 
 Announce the HEIGHT to the world.
 Make the _public_chunks/ directory publically available for download.
 
   "At block HEIGHT 341000 (Expected Nov 11 2014), I will prove
    possession of the files encrypted at this location:
-     <torrent:...>" -Leaker
+     <torrent:...>
+   by releasing 18 of the 58 chunks." -Leaker
 
 Once block hash becomes known:
 
@@ -64,7 +66,6 @@ and spend any funds at those addresses:
 To find the pubkeys for an ADDRESS, use the tool pp_check_addr:
 
   $ ./pp_check_addr 1Ksv3HoCAn75uMfXtyWLgauUQv3gEa389A
-  Fetching de6528066e6f059f2ccd9cdca8bca273ea07fbf7f7017e26a6525f0694f14c09...
-  tx found. Searching...
+  Fetching transaction...
   02e1746dc1da27a5d4be9be4855016fc6fdd6f29b5a198239978dafdf7dd647656
 

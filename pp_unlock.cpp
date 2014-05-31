@@ -15,12 +15,10 @@ payment_address bidding_address(const ec_point& pubkey)
     set_public_key(payaddr, data);
     return payaddr;
 }
-hash_digest derive_seed(const payment_address& bid_addr)
+hash_digest derive_seed(const ec_point& pubkey)
 {
-    hash_digest result = null_hash;
-    const short_hash& addr_hash = bid_addr.hash();
-    std::copy(addr_hash.begin(), addr_hash.end(), result.begin());
-    return result;
+    data_chunk data(pubkey.begin(), pubkey.end());
+    return bitcoin_hash(data);
 }
 
 int main(int argc, char** argv)
@@ -57,7 +55,7 @@ int main(int argc, char** argv)
     infile.close();
     // Get seed.
     payment_address bid_addr = bidding_address(pubkey);
-    hash_digest seed = derive_seed(bid_addr);
+    hash_digest seed = derive_seed(pubkey);
     // Decrypt chunk.
     aes256_context ctx; 
     BITCOIN_ASSERT(seed.size() == 32);
