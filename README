@@ -1,7 +1,12 @@
 Trustless provably fair information marketplace
-===============================================
+==================================================================
+"PayPub: Trustless payments for information publishing on Bitcoin"
     Scheme by Peter Todd
     Code by Amir Taaki
+
+    ###############################
+    # EARLY NON-SERIOUS PROTOTYPE #
+    ###############################
 
 * Distribute an encrypted file to the world.
 * Reveal some (provably fair) random section of the contents to prove
